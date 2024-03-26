@@ -1,8 +1,25 @@
 import 'package:elia_hackathon_2024_app/packages/ui_components/ui_components.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class HomeScreen extends StatelessWidget {
+import '../home_viewmodel.dart';
+import '../pods/pods.dart';
+
+class HomeScreen extends ConsumerStatefulWidget {
   const HomeScreen({super.key});
+
+  @override
+  ConsumerState<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends ConsumerState<HomeScreen> {
+  @override
+  void initState() {
+    super.initState();
+
+    final vm = ref.read<HomeViewModel>(homeViewModelProvider);
+    vm.init();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -102,7 +119,7 @@ class _ProfileCard extends StatelessWidget {
 }
 
 class _ChargingSessionsSection extends StatelessWidget {
-  const _ChargingSessionsSection({super.key});
+  const _ChargingSessionsSection();
 
   @override
   Widget build(BuildContext context) {
