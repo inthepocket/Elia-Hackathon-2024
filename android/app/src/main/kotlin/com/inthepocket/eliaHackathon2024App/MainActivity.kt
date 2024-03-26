@@ -1,4 +1,4 @@
-package com.example.elia_hackathon_2024_app
+package com.inthepocket.eliaHackathon2024App
 
 import io.flutter.embedding.android.FlutterActivity
 
