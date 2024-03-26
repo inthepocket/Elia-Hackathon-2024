@@ -1,6 +1,8 @@
 import 'dart:ui';
 
 class PrimitiveColorTokens {
+  const PrimitiveColorTokens._();
+
   static const white = Color(0xFFFFFFFF);
 
   // Brand colors
