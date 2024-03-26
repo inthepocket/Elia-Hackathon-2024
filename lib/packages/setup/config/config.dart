@@ -1,2 +1,2 @@
 export 'src/app_config.dart';
-export 'src/pods/pods.dart';
+export 'src/di/pods.dart';
