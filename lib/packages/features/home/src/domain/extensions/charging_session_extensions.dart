@@ -1,4 +1,4 @@
-import '../../data/api/models/charge_period.dart';
+import '../entities/charge_period.dart';
 import '../../data/api/models/charge_period_model.dart';
 import '../../data/api/models/charging_session_model.dart';
 import '../../data/api/models/charging_session_state_model.dart';

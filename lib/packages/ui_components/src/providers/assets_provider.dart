@@ -7,6 +7,7 @@ abstract class AssetsProvider {
   String get imageVolvoEx30;
   String get imageVolvoEx40;
   String get imagePolestar2;
+  String get batteryNipple;
 }
 
 class AssetsProviderImpl implements AssetsProvider {
@@ -33,4 +34,7 @@ class AssetsProviderImpl implements AssetsProvider {
 
   @override
   String get imagePolestar2 => 'assets/images/polestar2.png';
+
+  @override
+  String get batteryNipple => 'assets/battery_nipple.svg';
 }

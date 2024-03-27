@@ -13,8 +13,10 @@ class ChargingSessionModel {
     this.chargePeriods,
   });
 
+  @JsonKey(name: 'StartState')
   final ChargingSessionStateModel startState;
 
+  @JsonKey(name: 'EndState')
   final ChargingSessionStateModel? endState;
 
   @JsonKey(name: 'ChargePeriods')

@@ -11,7 +11,8 @@ VehicleStateModel _$VehicleStateModelFromJson(Map<String, dynamic> json) =>
       metadata: VehicleModel.fromJson(json['Metadata'] as Map<String, dynamic>),
       currentState: ChargingSessionStateModel.fromJson(
           json['CurrentState'] as Map<String, dynamic>),
-      sessionsLast24hours: (json['SessionsLast24hours'] as List<dynamic>?)
+      currentRealTimePrice: (json['CurrentRealTimePrice'] as num).toDouble(),
+      mostRecentSessions: (json['SessionsLast5Days'] as List<dynamic>?)
           ?.map((e) => ChargingSessionModel.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -20,5 +21,6 @@ Map<String, dynamic> _$VehicleStateModelToJson(VehicleStateModel instance) =>
     <String, dynamic>{
       'Metadata': instance.metadata,
       'CurrentState': instance.currentState,
-      'SessionsLast24hours': instance.sessionsLast24hours,
+      'CurrentRealTimePrice': instance.currentRealTimePrice,
+      'SessionsLast5Days': instance.mostRecentSessions,
     };

@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 
-import '../../data/api/models/charge_period.dart';
+import 'charge_period.dart';
 import 'charging_session_state.dart';
 
 class ChargingSession extends Equatable {

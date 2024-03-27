@@ -8,6 +8,7 @@ import '../../../domain/entities/vehicle_state.dart';
 import '../../di/pods.dart';
 import '../../models/home_screen_state.dart';
 import '../../extensions/vehicle_extensions.dart';
+import 'battery/battery.dart';
 import 'select_car/widgets/select_vehicle_page.dart';
 
 class ProfileSection extends ConsumerWidget {
@@ -22,7 +23,10 @@ class ProfileSection extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final currentRangeKm =
         (data.selectedVehicleState.currentState.soc * data.selectedVehicleState.metaData.kmPerKwh).round();
+
     final currentRangePercentage = (currentRangeKm / data.selectedVehicleState.metaData.rangeKm * 100).round();
+
+    final currentRangeText = data.selectedVehicleState.currentState.connected ? 'Current range' : 'Last known range';
 
     return DecoratedBox(
       decoration: const BoxDecoration(
@@ -112,7 +116,7 @@ class ProfileSection extends ConsumerWidget {
                     ),
                     Text.rich(
                       TextSpan(
-                        text: 'Current range $currentRangePercentage',
+                        text: '$currentRangeText $currentRangePercentage',
                         style: const TextStyle(
                           color: Colors.white,
                           fontSize: 16.0,
@@ -172,7 +176,7 @@ class _ProfileCard extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final assetsProvider = ref.watch(assetsProviderProvider);
 
-    final sessions = data.selectedVehicleState.sessionsLast24hours;
+    final sessions = data.selectedVehicleState.mostRecentSessions;
     sessions.sort((a, b) => b.startState.stateTime.compareTo(a.startState.stateTime));
     final mostRecentSession = sessions.firstOrNull;
 
@@ -259,9 +263,17 @@ class _ProfileCard extends ConsumerWidget {
                 _StateChip(selectedVehicleState: data.selectedVehicleState),
               ],
             ),
+            if (mostRecentSession != null) ...[
+              const SizedBox(height: 12.0),
+              Battery(
+                currentState: data.selectedVehicleState.currentState,
+                startState: mostRecentSession.startState,
+              ),
+              const SizedBox(height: 8.0),
+            ],
             const Text.rich(
               TextSpan(
-                text: 'Estimated time at ',
+                text: 'Estimated full charge time at ',
                 style: TextStyle(
                   color: Color(0xFF576C76),
                   fontSize: 12.0,
@@ -302,14 +314,14 @@ class _StateChip extends ConsumerWidget {
     final Color foregroundColor;
     final Color backgroundColor;
 
-    if (selectedVehicleState.currentState.connected && selectedVehicleState.currentState.production > 0) {
+    if (selectedVehicleState.currentState.connected && selectedVehicleState.currentState.consumption > 0) {
       iconName = assetsProvider.iconPig;
       text = 'Happy hour';
       foregroundColor = const Color(0xFF3C9C41);
       backgroundColor = const Color(0xFFE2F0E2);
-    } else if (selectedVehicleState.currentState.connected && selectedVehicleState.currentState.production == 0) {
+    } else if (selectedVehicleState.currentState.connected && selectedVehicleState.currentState.consumption == 0) {
       iconName = assetsProvider.iconPlug;
-      text = 'Plugged In';
+      text = 'Plugged in';
       foregroundColor = const Color(0xFFF39642);
       backgroundColor = const Color(0xFFFDEFE2);
     } else {

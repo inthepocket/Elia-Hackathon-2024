@@ -14,13 +14,17 @@ class VehicleStateModel {
   @JsonKey(name: 'CurrentState')
   final ChargingSessionStateModel currentState;
 
-  @JsonKey(name: 'SessionsLast24hours')
-  final List<ChargingSessionModel>? sessionsLast24hours;
+  @JsonKey(name: 'CurrentRealTimePrice')
+  final double currentRealTimePrice;
+
+  @JsonKey(name: 'SessionsLast5Days')
+  final List<ChargingSessionModel>? mostRecentSessions;
 
   VehicleStateModel({
     required this.metadata,
     required this.currentState,
-    this.sessionsLast24hours,
+    required this.currentRealTimePrice,
+    this.mostRecentSessions,
   });
 
   factory VehicleStateModel.fromJson(Map<String, dynamic> json) => _$VehicleStateModelFromJson(json);
