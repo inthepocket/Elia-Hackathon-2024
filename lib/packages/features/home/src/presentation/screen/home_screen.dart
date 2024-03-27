@@ -28,7 +28,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: PrimitiveColorTokens.gray400,
+      backgroundColor: const Color(0xFF1F1F27),
       body: const _Body(),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
@@ -83,14 +83,13 @@ class _Body extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const SafeArea(
-      child: SingleChildScrollView(
-        child: Column(
-          children: [
-            ProfileCard(),
-            _ChargingSessionsSection(),
-          ],
-        ),
+    return const SingleChildScrollView(
+      physics: ClampingScrollPhysics(),
+      child: Column(
+        children: [
+          ProfileCard(),
+          _ChargingSessionsSection(),
+        ],
       ),
     );
   }
@@ -101,6 +100,171 @@ class _ChargingSessionsSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return const SafeArea(
+      left: false,
+      top: false,
+      right: false,
+      child: Padding(
+        padding: EdgeInsets.fromLTRB(12.0, 32.0, 12.0, 16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              'Session history',
+              style: TextStyle(
+                fontSize: 14.0,
+                fontWeight: FontWeight.w500,
+                color: Colors.white,
+              ),
+            ),
+            SizedBox(height: 12.0),
+            _ChargingSessions(),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _ChargingSessions extends StatelessWidget {
+  const _ChargingSessions({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return const Column(
+      children: [
+        ChargingSessionContainer(
+          child: ChargingSessionBody(
+            startTime: '17:00',
+            endTime: '18:00',
+            kmBeforeCharging: 100.0,
+            kmAfterCharing: 150.0,
+            maxKm: 400.0,
+            amountSaved: '5,00',
+            currencySymbol: '€',
+          ),
+        ),
+        SizedBox(height: 6.0),
+        ChargingSessionContainer(
+          child: ChargingSessionBody(
+            startTime: '17:00',
+            endTime: '18:00',
+            kmBeforeCharging: 100.0,
+            kmAfterCharing: 150.0,
+            maxKm: 400.0,
+            amountSaved: '5,00',
+            currencySymbol: '€',
+          ),
+        ),
+        SizedBox(height: 6.0),
+        ChargingSessionContainer(
+          child: ChargingSessionBody(
+            startTime: '17:00',
+            endTime: '18:00',
+            kmBeforeCharging: 100.0,
+            kmAfterCharing: 150.0,
+            maxKm: 400.0,
+            amountSaved: '5,00',
+            currencySymbol: '€',
+          ),
+        ),
+        SizedBox(height: 6.0),
+        ChargingSessionContainer(
+          child: ChargingSessionBody(
+            startTime: '17:00',
+            endTime: '18:00',
+            kmBeforeCharging: 100.0,
+            kmAfterCharing: 150.0,
+            maxKm: 400.0,
+            amountSaved: '5,00',
+            currencySymbol: '€',
+          ),
+        ),
+        SizedBox(height: 6.0),
+        ChargingSessionContainer(
+          child: ChargingSessionBody(
+            startTime: '17:00',
+            endTime: '18:00',
+            kmBeforeCharging: 100.0,
+            kmAfterCharing: 150.0,
+            maxKm: 400.0,
+            amountSaved: '5,00',
+            currencySymbol: '€',
+          ),
+        ),
+        SizedBox(height: 6.0),
+        ChargingSessionContainer(
+          child: ChargingSessionBody(
+            startTime: '17:00',
+            endTime: '18:00',
+            kmBeforeCharging: 100.0,
+            kmAfterCharing: 150.0,
+            maxKm: 400.0,
+            amountSaved: '5,00',
+            currencySymbol: '€',
+          ),
+        ),
+        SizedBox(height: 6.0),
+        ChargingSessionContainer(
+          child: ChargingSessionBody(
+            startTime: '17:00',
+            endTime: '18:00',
+            kmBeforeCharging: 100.0,
+            kmAfterCharing: 150.0,
+            maxKm: 400.0,
+            amountSaved: '5,00',
+            currencySymbol: '€',
+          ),
+        ),
+        SizedBox(height: 6.0),
+        ChargingSessionContainer(
+          child: ChargingSessionBody(
+            startTime: '17:00',
+            endTime: '18:00',
+            kmBeforeCharging: 100.0,
+            kmAfterCharing: 150.0,
+            maxKm: 400.0,
+            amountSaved: '5,00',
+            currencySymbol: '€',
+          ),
+        ),
+        SizedBox(height: 6.0),
+        ChargingSessionContainer(
+          child: ChargingSessionBody(
+            startTime: '17:00',
+            endTime: '18:00',
+            kmBeforeCharging: 100.0,
+            kmAfterCharing: 150.0,
+            maxKm: 400.0,
+            amountSaved: '5,00',
+            currencySymbol: '€',
+          ),
+        ),
+        SizedBox(height: 6.0),
+        ChargingSessionContainer(
+          child: ChargingSessionBody(
+            startTime: '17:00',
+            endTime: '18:00',
+            kmBeforeCharging: 100.0,
+            kmAfterCharing: 150.0,
+            maxKm: 400.0,
+            amountSaved: '5,00',
+            currencySymbol: '€',
+          ),
+        ),
+        SizedBox(height: 6.0),
+        ChargingSessionContainer(
+          child: ChargingSessionBody(
+            startTime: '17:00',
+            endTime: '18:00',
+            kmBeforeCharging: 100.0,
+            kmAfterCharing: 150.0,
+            maxKm: 400.0,
+            amountSaved: '5,00',
+            currencySymbol: '€',
+          ),
+        ),
+      ],
+    );
   }
 }
