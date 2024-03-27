@@ -46,7 +46,7 @@ class ProfileSection extends StatelessWidget {
                             ),
                             children: [
                               TextSpan(
-                                text: '€',
+                                text: ' €',
                                 style: TextStyle(
                                   color: Colors.white,
                                   fontSize: 12.0,
@@ -147,29 +147,59 @@ class _ProfileCard extends ConsumerWidget {
               assetsProvider.imageVolvoEx30,
               fit: BoxFit.fitWidth,
             ),
-            const Text(
-              'Reward',
-              style: TextStyle(
-                fontSize: 16.0,
-                fontWeight: FontWeight.w500,
-                color: PrimitiveColorTokens.gray200,
-              ),
+            const SizedBox(height: 16.0),
+            Row(
+              mainAxisSize: MainAxisSize.max,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                const Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text.rich(
+                      TextSpan(
+                        text: '08:32',
+                        style: TextStyle(
+                          color: Color(0xFF576C76),
+                          fontSize: 14.0,
+                          fontWeight: FontWeight.w600,
+                        ),
+                        children: [
+                          TextSpan(
+                            text: ' - Now',
+                            style: TextStyle(
+                              color: Color(0xFF576C76),
+                              fontSize: 14.0,
+                              fontWeight: FontWeight.w400,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+                EliaChip(
+                  iconName: assetsProvider.iconRecharging,
+                  text: 'Direct charging',
+                  backgroundColor: const Color(0xFFE4F0F2),
+                  foregroundColor: const Color(0xFF4B9EAA),
+                ),
+              ],
             ),
-            Text.rich(
+            const Text.rich(
               TextSpan(
-                text: '27,03 ',
-                style: const TextStyle(
-                  fontSize: 18.0,
+                text: 'Estimated time at ',
+                style: TextStyle(
+                  color: Color(0xFF576C76),
+                  fontSize: 12.0,
                   fontWeight: FontWeight.w400,
-                  color: PrimitiveColorTokens.gray900,
                 ),
                 children: [
                   TextSpan(
-                    text: 'Euro'.toUpperCase(),
-                    style: const TextStyle(
+                    text: '13:25',
+                    style: TextStyle(
+                      color: Color(0xFF576C76),
                       fontSize: 12.0,
-                      fontWeight: FontWeight.w400,
-                      color: PrimitiveColorTokens.gray900,
+                      fontWeight: FontWeight.w600,
                     ),
                   ),
                 ],

@@ -1,5 +1,6 @@
 abstract class AssetsProvider {
   String get iconBolt;
+  String get iconRecharging;
   String get imageVolvoEx30;
   String get imageVolvoEx40;
   String get imagePolestar2;
@@ -8,6 +9,9 @@ abstract class AssetsProvider {
 class AssetsProviderImpl implements AssetsProvider {
   @override
   String get iconBolt => 'assets/icons/icon_bolt.svg';
+
+  @override
+  String get iconRecharging => 'assets/icons/icon_recharging.svg';
 
   @override
   String get imageVolvoEx30 => 'assets/images/volvo_ex30.png';

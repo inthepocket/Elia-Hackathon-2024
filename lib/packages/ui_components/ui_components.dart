@@ -5,3 +5,4 @@ export 'src/providers/assets_provider.dart' show AssetsProvider;
 export 'src/di/pods.dart';
 export 'src/components/charging_session_body.dart';
 export 'src/components/charging_session_container.dart';
+export 'src/components/elia_chip.dart';

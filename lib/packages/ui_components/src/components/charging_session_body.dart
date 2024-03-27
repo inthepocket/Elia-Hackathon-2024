@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_svg/svg.dart';
 
 import '../di/pods.dart';
+import 'elia_chip.dart';
 
-class ChargingSessionBody extends StatelessWidget {
+class ChargingSessionBody extends ConsumerWidget {
   final String startTime;
   final String endTime;
   final double kmBeforeCharging;
@@ -25,7 +25,9 @@ class ChargingSessionBody extends StatelessWidget {
   });
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final assetsProvider = ref.watch(assetsProviderProvider);
+
     final chargedPercentage = (kmAfterCharing - kmBeforeCharging) / maxKm * 100;
 
     return Column(
@@ -43,8 +45,11 @@ class ChargingSessionBody extends StatelessWidget {
           mainAxisSize: MainAxisSize.max,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            _ChargedChip(
-              chargedPercentage: chargedPercentage,
+            EliaChip(
+              iconName: assetsProvider.iconBolt,
+              text: '+${chargedPercentage.round()}%',
+              backgroundColor: const Color(0xFFE2F0E2),
+              foregroundColor: const Color(0xFF3C9C41),
             ),
             _AmountSaved(
               amountSaved: amountSaved,
@@ -119,48 +124,6 @@ class _ChargingStatePainter extends CustomPainter {
 
   @override
   bool shouldRepaint(_ChargingStatePainter oldDelegate) => true;
-}
-
-class _ChargedChip extends ConsumerWidget {
-  final double chargedPercentage;
-
-  const _ChargedChip({
-    required this.chargedPercentage,
-  });
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final assetsProvider = ref.watch(assetsProviderProvider);
-
-    return Container(
-      padding: const EdgeInsets.fromLTRB(4.0, 2.0, 6.0, 2.0),
-      decoration: BoxDecoration(
-        color: const Color(0xFFE2F0E2),
-        borderRadius: BorderRadius.circular(20.0),
-      ),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          SvgPicture.asset(
-            assetsProvider.iconBolt,
-            colorFilter: const ColorFilter.mode(
-              Color(0xFF3C9C41),
-              BlendMode.dstIn,
-            ),
-          ),
-          const SizedBox(width: 2.0),
-          Text(
-            '+${chargedPercentage.round()}%',
-            style: const TextStyle(
-              fontSize: 11,
-              fontWeight: FontWeight.w600,
-              color: Color(0xFF3C9C41),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
 }
 
 class _AmountSaved extends StatelessWidget {
