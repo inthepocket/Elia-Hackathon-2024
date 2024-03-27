@@ -11,6 +11,10 @@ class HomeViewModel {
 
   Future<void> init() async {
     try {
+      final realtime = DateTime.now().toUtc().toString();
+
+      debugPrint('Realtime: $realtime');
+
       final chargingSessions = await _getChargingSessions(
         ean: '541983310278725782',
         realTime: DateTime.now().toUtc().toString(),

@@ -7,7 +7,7 @@ part of 'pods.dart';
 // **************************************************************************
 
 String _$happyHourRestClientHash() =>
-    r'fd055c9b8714bb3277ad1492afed54b2a01b1b5e';
+    r'c5e345768106519dca3c5e971063cfd272586257';
 
 /// See also [happyHourRestClient].
 @ProviderFor(happyHourRestClient)
