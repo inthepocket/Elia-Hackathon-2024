@@ -5,6 +5,7 @@ import 'package:wolt_modal_sheet/wolt_modal_sheet.dart';
 
 import '../home_viewmodel.dart';
 import '../di/pods.dart';
+import '../models/home_screen_state.dart';
 import 'components/charging_session_request/widgets/request_departure_time_page.dart';
 import 'components/charging_session_request/widgets/request_desired_range.dart';
 import 'components/profile_section.dart';
@@ -29,7 +30,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xFF1F1F27),
-      body: const _Body(),
+      body: const _BodyBuilder(),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           final vm = ref.read<HomeViewModel>(homeViewModelProvider);
@@ -78,8 +79,50 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   }
 }
 
-class _Body extends StatelessWidget {
-  const _Body();
+class _BodyBuilder extends ConsumerWidget {
+  const _BodyBuilder();
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final vm = ref.watch(homeViewModelProvider);
+
+    return ValueListenableBuilder(
+      valueListenable: vm,
+      builder: (context, state, widget) {
+        return switch (state) {
+          HomeScreenLoading() => const _LoadingBody(),
+          HomeScreenError() => const _ErrorBody(),
+          HomeScreenData() => const _DataBody(),
+        };
+      },
+    );
+  }
+}
+
+class _LoadingBody extends StatelessWidget {
+  const _LoadingBody();
+
+  @override
+  Widget build(BuildContext context) {
+    return const Center(
+      child: CircularProgressIndicator(),
+    );
+  }
+}
+
+class _ErrorBody extends StatelessWidget {
+  const _ErrorBody();
+
+  @override
+  Widget build(BuildContext context) {
+    return const Center(
+      child: Text('An error occurred while fetching the data.'),
+    );
+  }
+}
+
+class _DataBody extends StatelessWidget {
+  const _DataBody();
 
   @override
   Widget build(BuildContext context) {

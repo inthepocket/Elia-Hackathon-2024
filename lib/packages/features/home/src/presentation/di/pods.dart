@@ -9,9 +9,11 @@ part 'pods.g.dart';
 @riverpod
 HomeViewModel homeViewModel(HomeViewModelRef ref) {
   final getChargingSessionsUseCase = ref.watch(getChargingSessionsUseCaseProvider);
+  final getVehiclesUseCase = ref.watch(getVehiclesUseCaseProvider);
 
   return HomeViewModel(
     getChargingSessionsUseCase,
+    getVehiclesUseCase,
   );
 }
 
