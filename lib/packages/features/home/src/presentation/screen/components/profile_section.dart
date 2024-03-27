@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:wolt_modal_sheet/wolt_modal_sheet.dart';
 
 import '../../../domain/entities/vehicle.dart';
+import '../../../domain/entities/vehicle_state.dart';
 import '../../di/pods.dart';
 import '../../models/home_screen_state.dart';
 import '../../extensions/vehicle_extensions.dart';
@@ -255,12 +256,7 @@ class _ProfileCard extends ConsumerWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 sessionStartTime,
-                EliaChip(
-                  iconName: assetsProvider.iconRecharging,
-                  text: 'Direct charging',
-                  backgroundColor: const Color(0xFFE4F0F2),
-                  foregroundColor: const Color(0xFF4B9EAA),
-                ),
+                _StateChip(selectedVehicleState: data.selectedVehicleState),
               ],
             ),
             const Text.rich(
@@ -286,6 +282,48 @@ class _ProfileCard extends ConsumerWidget {
           ],
         ),
       ),
+    );
+  }
+}
+
+class _StateChip extends ConsumerWidget {
+  final VehicleState selectedVehicleState;
+
+  const _StateChip({
+    required this.selectedVehicleState,
+  });
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final assetsProvider = ref.watch(assetsProviderProvider);
+
+    final String iconName;
+    final String text;
+    final Color foregroundColor;
+    final Color backgroundColor;
+
+    if (selectedVehicleState.currentState.connected && selectedVehicleState.currentState.production > 0) {
+      iconName = assetsProvider.iconPig;
+      text = 'Happy hour';
+      foregroundColor = const Color(0xFF3C9C41);
+      backgroundColor = const Color(0xFFE2F0E2);
+    } else if (selectedVehicleState.currentState.connected && selectedVehicleState.currentState.production == 0) {
+      iconName = assetsProvider.iconPlug;
+      text = 'Plugged In';
+      foregroundColor = const Color(0xFFF39642);
+      backgroundColor = const Color(0xFFFDEFE2);
+    } else {
+      iconName = assetsProvider.iconUnplugged;
+      text = 'Unplugged';
+      foregroundColor = const Color(0xFF617177);
+      backgroundColor = const Color(0xFFF5F6F7);
+    }
+
+    return EliaChip(
+      iconName: iconName,
+      text: text,
+      backgroundColor: backgroundColor,
+      foregroundColor: foregroundColor,
     );
   }
 }
