@@ -8,11 +8,13 @@ part 'charging_session_model.g.dart';
 class ChargingSessionModel {
   const ChargingSessionModel({
     required this.startState,
-    required this.endState,
+    this.chargedState,
+    this.endState,
   });
 
   final ChargingSessionStateModel startState;
-  final ChargingSessionStateModel endState;
+  final ChargingSessionStateModel? chargedState;
+  final ChargingSessionStateModel? endState;
 
   factory ChargingSessionModel.fromJson(Map<String, dynamic> json) => _$ChargingSessionModelFromJson(json);
 

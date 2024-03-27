@@ -5,15 +5,18 @@ import 'charging_session_state.dart';
 class ChargingSession extends Equatable {
   const ChargingSession({
     required this.startState,
-    required this.endState,
+    this.chargedState,
+    this.endState,
   });
 
   final ChargingSessionState startState;
-  final ChargingSessionState endState;
+  final ChargingSessionState? chargedState;
+  final ChargingSessionState? endState;
 
   @override
-  List<Object> get props => [
+  List<Object?> get props => [
         startState,
+        chargedState,
         endState,
       ];
 }

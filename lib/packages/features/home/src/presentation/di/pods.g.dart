@@ -22,7 +22,7 @@ final homeViewModelProvider = AutoDisposeProvider<HomeViewModel>.internal(
 
 typedef HomeViewModelRef = AutoDisposeProviderRef<HomeViewModel>;
 String _$chargingSessionRequestViewModelHash() =>
-    r'4a4b3bdf26736c90824c76e2040ff1fcdeb19d51';
+    r'03ea5f4fe0926c2612168f218bd4be9f831797a9';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -58,10 +58,12 @@ class ChargingSessionRequestViewModelFamily
 
   /// See also [chargingSessionRequestViewModel].
   ChargingSessionRequestViewModelProvider call({
+    required DateTime initialDepartureTime,
     required double initialRange,
     required double maxRange,
   }) {
     return ChargingSessionRequestViewModelProvider(
+      initialDepartureTime: initialDepartureTime,
       initialRange: initialRange,
       maxRange: maxRange,
     );
@@ -72,6 +74,7 @@ class ChargingSessionRequestViewModelFamily
     covariant ChargingSessionRequestViewModelProvider provider,
   ) {
     return call(
+      initialDepartureTime: provider.initialDepartureTime,
       initialRange: provider.initialRange,
       maxRange: provider.maxRange,
     );
@@ -97,11 +100,13 @@ class ChargingSessionRequestViewModelProvider
     extends AutoDisposeProvider<ChargingSessionRequestViewModel> {
   /// See also [chargingSessionRequestViewModel].
   ChargingSessionRequestViewModelProvider({
+    required DateTime initialDepartureTime,
     required double initialRange,
     required double maxRange,
   }) : this._internal(
           (ref) => chargingSessionRequestViewModel(
             ref as ChargingSessionRequestViewModelRef,
+            initialDepartureTime: initialDepartureTime,
             initialRange: initialRange,
             maxRange: maxRange,
           ),
@@ -114,6 +119,7 @@ class ChargingSessionRequestViewModelProvider
           dependencies: ChargingSessionRequestViewModelFamily._dependencies,
           allTransitiveDependencies:
               ChargingSessionRequestViewModelFamily._allTransitiveDependencies,
+          initialDepartureTime: initialDepartureTime,
           initialRange: initialRange,
           maxRange: maxRange,
         );
@@ -125,10 +131,12 @@ class ChargingSessionRequestViewModelProvider
     required super.allTransitiveDependencies,
     required super.debugGetCreateSourceHash,
     required super.from,
+    required this.initialDepartureTime,
     required this.initialRange,
     required this.maxRange,
   }) : super.internal();
 
+  final DateTime initialDepartureTime;
   final double initialRange;
   final double maxRange;
 
@@ -147,6 +155,7 @@ class ChargingSessionRequestViewModelProvider
         dependencies: null,
         allTransitiveDependencies: null,
         debugGetCreateSourceHash: null,
+        initialDepartureTime: initialDepartureTime,
         initialRange: initialRange,
         maxRange: maxRange,
       ),
@@ -161,6 +170,7 @@ class ChargingSessionRequestViewModelProvider
   @override
   bool operator ==(Object other) {
     return other is ChargingSessionRequestViewModelProvider &&
+        other.initialDepartureTime == initialDepartureTime &&
         other.initialRange == initialRange &&
         other.maxRange == maxRange;
   }
@@ -168,6 +178,7 @@ class ChargingSessionRequestViewModelProvider
   @override
   int get hashCode {
     var hash = _SystemHash.combine(0, runtimeType.hashCode);
+    hash = _SystemHash.combine(hash, initialDepartureTime.hashCode);
     hash = _SystemHash.combine(hash, initialRange.hashCode);
     hash = _SystemHash.combine(hash, maxRange.hashCode);
 
@@ -177,6 +188,9 @@ class ChargingSessionRequestViewModelProvider
 
 mixin ChargingSessionRequestViewModelRef
     on AutoDisposeProviderRef<ChargingSessionRequestViewModel> {
+  /// The parameter `initialDepartureTime` of this provider.
+  DateTime get initialDepartureTime;
+
   /// The parameter `initialRange` of this provider.
   double get initialRange;
 
@@ -189,6 +203,9 @@ class _ChargingSessionRequestViewModelProviderElement
     with ChargingSessionRequestViewModelRef {
   _ChargingSessionRequestViewModelProviderElement(super.provider);
 
+  @override
+  DateTime get initialDepartureTime =>
+      (origin as ChargingSessionRequestViewModelProvider).initialDepartureTime;
   @override
   double get initialRange =>
       (origin as ChargingSessionRequestViewModelProvider).initialRange;

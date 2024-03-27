@@ -6,6 +6,7 @@ import 'shared.dart';
 
 SliverWoltModalSheetPage requestDepartureTimePage({
   required BuildContext modalSheetContext,
+  required DateTime initialDepartureTime,
   required void Function(DateTime) onDepartureTimeSelected,
   required VoidCallback onNextPressed,
 }) {
@@ -24,7 +25,7 @@ SliverWoltModalSheetPage requestDepartureTimePage({
               width: double.infinity,
               child: CupertinoDatePicker(
                 mode: CupertinoDatePickerMode.time,
-                initialDateTime: DateTime(1, 1, 1, 17, 0),
+                initialDateTime: initialDepartureTime,
                 use24hFormat: true,
                 onDateTimeChanged: onDepartureTimeSelected,
               ),

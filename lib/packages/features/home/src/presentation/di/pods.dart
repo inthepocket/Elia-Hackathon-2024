@@ -18,10 +18,12 @@ HomeViewModel homeViewModel(HomeViewModelRef ref) {
 @riverpod
 ChargingSessionRequestViewModel chargingSessionRequestViewModel(
   ChargingSessionRequestViewModelRef ref, {
+  required DateTime initialDepartureTime,
   required double initialRange,
   required double maxRange,
 }) {
   return ChargingSessionRequestViewModel(
+    initialDepartureTime: initialDepartureTime,
     initialRange: initialRange,
     maxRange: maxRange,
   );

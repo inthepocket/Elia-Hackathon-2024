@@ -25,22 +25,26 @@ class ChargingSessionStateModel {
     required this.steerableProduction,
   });
 
+  @JsonKey(name: r'$id')
   final String id;
+
+  @JsonKey(name: r'$AssetType')
   final String assetType;
-  final int socMax;
-  final int chargingMax;
+
+  final double socMax;
+  final double chargingMax;
   final double soc;
-  final int lastSoc;
+  final double lastSoc;
   final bool connected;
   final bool emptyOnReconnect;
-  final DateTime stateTime;
+  final String stateTime;
   final String ean;
   final String assetMode;
-  final int maxProduction;
-  final int production;
-  final int requestedProduction;
-  final int consumption;
-  final int requestedConsumption;
+  final double maxProduction;
+  final double production;
+  final double requestedProduction;
+  final double consumption;
+  final double requestedConsumption;
   final bool steerableConsumption;
   final bool steerableProduction;
 

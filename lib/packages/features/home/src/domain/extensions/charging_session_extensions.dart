@@ -7,7 +7,8 @@ extension ChargingSessionModelX on ChargingSessionModel {
   ChargingSession toEntity() {
     return ChargingSession(
       startState: startState.toEntity(),
-      endState: endState.toEntity(),
+      chargedState: chargedState?.toEntity(),
+      endState: endState?.toEntity(),
     );
   }
 }

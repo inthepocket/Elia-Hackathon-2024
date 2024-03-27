@@ -1,26 +1,36 @@
 import 'package:flutter/widgets.dart';
 
 class ChargingSessionRequestViewModel extends ValueNotifier<int> {
+  static const _tag = 'ChargingSessionRequestViewModel';
+
   ChargingSessionRequestViewModel({
+    required this.initialDepartureTime,
     required this.initialRange,
     required this.maxRange,
-  }) : super(0);
+  }) : super(0) {
+    debugPrint('$_tag - ChargingSessionRequestViewModel()');
+  }
 
+  final DateTime initialDepartureTime;
   final double initialRange;
   final double maxRange;
 
-  late DateTime departureTime;
-  late double desiredRange;
+  DateTime? _departureTime;
+  double? _desiredRange;
 
   void onBackPressed() => value--;
 
   void onNextPressed() => value++;
 
+  DateTime get departureTime => _departureTime ?? initialDepartureTime;
+
   void onDepartureTimeSelected(DateTime departureTime) {
-    this.departureTime = departureTime;
+    _departureTime = departureTime;
   }
 
+  double get desiredRange => _desiredRange ?? initialRange;
+
   void onDesiredRangeSelected(double desiredRange) {
-    this.desiredRange = desiredRange;
+    _desiredRange = desiredRange;
   }
 }

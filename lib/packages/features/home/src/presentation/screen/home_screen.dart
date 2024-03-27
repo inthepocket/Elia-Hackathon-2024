@@ -32,8 +32,11 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
       body: const _Body(),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
+          final vm = ref.read<HomeViewModel>(homeViewModelProvider);
+
           final chargingSessionRequestVM = ref.read(
             chargingSessionRequestViewModelProvider(
+              initialDepartureTime: DateTime(1, 1, 1, 17, 0),
               initialRange: 75.0,
               maxRange: 400.0,
             ),
@@ -46,6 +49,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
             pageListBuilder: (modalSheetContext) => [
               requestDepartureTimePage(
                 modalSheetContext: modalSheetContext,
+                initialDepartureTime: chargingSessionRequestVM.initialDepartureTime,
                 onDepartureTimeSelected: (DateTime departureTime) =>
                     chargingSessionRequestVM.onDepartureTimeSelected(departureTime),
                 onNextPressed: chargingSessionRequestVM.onNextPressed,
@@ -56,12 +60,17 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                 maxRange: chargingSessionRequestVM.maxRange,
                 onBackPressed: chargingSessionRequestVM.onBackPressed,
                 onDesiredRangeSelected: chargingSessionRequestVM.onDesiredRangeSelected,
-                onNextPressed: () {},
+                onNextPressed: () {
+                  vm.onChargingSessionRequested(
+                    departureTime: chargingSessionRequestVM.departureTime,
+                    desiredRange: chargingSessionRequestVM.desiredRange,
+                  );
+
+                  Navigator.of(context).pop();
+                },
               ),
             ],
-            onModalDismissedWithBarrierTap: () {
-              Navigator.of(context).pop();
-            },
+            onModalDismissedWithBarrierTap: Navigator.of(context).pop,
           );
         },
       ),
