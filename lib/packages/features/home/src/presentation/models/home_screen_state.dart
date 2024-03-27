@@ -1,4 +1,5 @@
 import '../../domain/entities/vehicle.dart';
+import '../../domain/entities/vehicle_state.dart';
 
 sealed class HomeScreenState {
   const HomeScreenState();
@@ -14,10 +15,10 @@ class HomeScreenError extends HomeScreenState {
 
 class HomeScreenData extends HomeScreenState {
   final List<Vehicle> vehicles;
-  final Vehicle selectedVehicle;
+  final VehicleState selectedVehicleState;
 
   const HomeScreenData({
     required this.vehicles,
-    required this.selectedVehicle,
+    required this.selectedVehicleState,
   });
 }

@@ -2,6 +2,7 @@ import 'package:elia_hackathon_2024_app/packages/core_services/happy_hour/happy_
 
 import 'models/charging_session_model.dart';
 import 'models/vehicle_model.dart';
+import 'models/vehicle_state_model.dart';
 
 abstract class HomeApiProvider {
   Future<List<ChargingSessionModel>> getChargingSessions({
@@ -10,6 +11,10 @@ abstract class HomeApiProvider {
   });
 
   Future<List<VehicleModel>> getVehicles();
+
+  Future<VehicleStateModel> getVehicleState({
+    required String ean,
+  });
 }
 
 class HomeApiProviderImpl implements HomeApiProvider {
@@ -30,5 +35,12 @@ class HomeApiProviderImpl implements HomeApiProvider {
   @override
   Future<List<VehicleModel>> getVehicles() async {
     return _happyHourRestClient.getVehicles();
+  }
+
+  @override
+  Future<VehicleStateModel> getVehicleState({
+    required String ean,
+  }) async {
+    return _happyHourRestClient.getVehicleState(ean: ean);
   }
 }

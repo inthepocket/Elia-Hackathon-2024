@@ -16,4 +16,9 @@ abstract class HappyHourRestClient {
 
   @GET('/vehicles')
   Future<List<VehicleModel>> getVehicles();
+
+  @GET('/vehicles')
+  Future<VehicleStateModel> getVehicleState({
+    @Query('ean') required String ean,
+  });
 }

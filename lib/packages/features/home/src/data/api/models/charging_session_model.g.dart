@@ -11,20 +11,19 @@ ChargingSessionModel _$ChargingSessionModelFromJson(
     ChargingSessionModel(
       startState: ChargingSessionStateModel.fromJson(
           json['startState'] as Map<String, dynamic>),
-      chargedState: json['chargedState'] == null
-          ? null
-          : ChargingSessionStateModel.fromJson(
-              json['chargedState'] as Map<String, dynamic>),
       endState: json['endState'] == null
           ? null
           : ChargingSessionStateModel.fromJson(
               json['endState'] as Map<String, dynamic>),
+      chargePeriods: (json['ChargePeriods'] as List<dynamic>?)
+          ?.map((e) => ChargePeriodModel.fromJson(e as Map<String, dynamic>))
+          .toList(),
     );
 
 Map<String, dynamic> _$ChargingSessionModelToJson(
         ChargingSessionModel instance) =>
     <String, dynamic>{
       'startState': instance.startState,
-      'chargedState': instance.chargedState,
       'endState': instance.endState,
+      'ChargePeriods': instance.chargePeriods,
     };

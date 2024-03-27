@@ -41,5 +41,23 @@ final getVehiclesUseCaseProvider =
 );
 
 typedef GetVehiclesUseCaseRef = AutoDisposeProviderRef<GetVehiclesUseCase>;
+String _$getVehicleStateUseCaseHash() =>
+    r'f1084dc4de9249ea0122da45d87ff1832c15e183';
+
+/// See also [getVehicleStateUseCase].
+@ProviderFor(getVehicleStateUseCase)
+final getVehicleStateUseCaseProvider =
+    AutoDisposeProvider<GetVehicleStateUseCase>.internal(
+  getVehicleStateUseCase,
+  name: r'getVehicleStateUseCaseProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$getVehicleStateUseCaseHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+typedef GetVehicleStateUseCaseRef
+    = AutoDisposeProviderRef<GetVehicleStateUseCase>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

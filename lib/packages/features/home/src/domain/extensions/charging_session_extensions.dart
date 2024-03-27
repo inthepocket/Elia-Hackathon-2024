@@ -1,3 +1,5 @@
+import '../../data/api/models/charge_period.dart';
+import '../../data/api/models/charge_period_model.dart';
 import '../../data/api/models/charging_session_model.dart';
 import '../../data/api/models/charging_session_state_model.dart';
 import '../entities/charging_session.dart';
@@ -7,8 +9,8 @@ extension ChargingSessionModelX on ChargingSessionModel {
   ChargingSession toEntity() {
     return ChargingSession(
       startState: startState.toEntity(),
-      chargedState: chargedState?.toEntity(),
       endState: endState?.toEntity(),
+      chargePeriods: chargePeriods == null ? [] : chargePeriods!.map((e) => e.toEntity()).toList(),
     );
   }
 }
@@ -34,6 +36,18 @@ extension ChargingSessionStateModelX on ChargingSessionStateModel {
       requestedConsumption: requestedConsumption,
       steerableConsumption: steerableConsumption,
       steerableProduction: steerableProduction,
+    );
+  }
+}
+
+extension ChargePeriodModelX on ChargePeriodModel {
+  ChargePeriod toEntity() {
+    return ChargePeriod(
+      startTime: startTime,
+      endTime: endTime,
+      socAtStart: socAtStart,
+      socAtEnd: socAtEnd,
+      chargedKwh: chargedKwh,
     );
   }
 }

@@ -10,10 +10,12 @@ part 'pods.g.dart';
 HomeViewModel homeViewModel(HomeViewModelRef ref) {
   final getChargingSessionsUseCase = ref.watch(getChargingSessionsUseCaseProvider);
   final getVehiclesUseCase = ref.watch(getVehiclesUseCaseProvider);
+  final getVehicleStateUseCase = ref.watch(getVehicleStateUseCaseProvider);
 
   return HomeViewModel(
     getChargingSessionsUseCase,
     getVehiclesUseCase,
+    getVehicleStateUseCase,
   );
 }
 

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../domain/entities/vehicle.dart';
 import '../domain/use_cases/get_charging_sessions_use_case.dart';
+import '../domain/use_cases/get_vehicle_state_use_case.dart';
 import '../domain/use_cases/get_vehicles_use_case.dart';
 import 'models/home_screen_state.dart';
 
@@ -11,10 +12,12 @@ class HomeViewModel extends ValueNotifier<HomeScreenState> {
   HomeViewModel(
     this._getChargingSessionsUseCase,
     this._getVehiclesUseCase,
+    this._getVehicleStateUseCase,
   ) : super(const HomeScreenLoading());
 
   final GetChargingSessionsUseCase _getChargingSessionsUseCase;
   final GetVehiclesUseCase _getVehiclesUseCase;
+  final GetVehicleStateUseCase _getVehicleStateUseCase;
 
   Future<void> init() async {
     debugPrint('$_tag - init()');
@@ -29,9 +32,12 @@ class HomeViewModel extends ValueNotifier<HomeScreenState> {
       final vehicles = await _getVehiclesUseCase();
       debugPrint(vehicles.toString());
 
+      final selectedVehicle = vehicles.first;
+      final selectedVehicleState = await _getVehicleStateUseCase(ean: selectedVehicle.ean);
+
       value = HomeScreenData(
         vehicles: vehicles,
-        selectedVehicle: vehicles.first,
+        selectedVehicleState: selectedVehicleState,
       );
     } catch (e) {
       debugPrint('An error occurred while fetching the vehicles: $e');
@@ -40,7 +46,7 @@ class HomeViewModel extends ValueNotifier<HomeScreenState> {
     }
   }
 
-  void onVehicleSelected(Vehicle vehicle) {
+  Future<void> onVehicleSelected(Vehicle vehicle) async {
     debugPrint('$_tag - onVehicleSelected(model: ${vehicle.model}, ean: ${vehicle.ean})');
 
     final currentValue = value;
@@ -48,10 +54,18 @@ class HomeViewModel extends ValueNotifier<HomeScreenState> {
       return;
     }
 
-    value = HomeScreenData(
-      vehicles: currentValue.vehicles,
-      selectedVehicle: vehicle,
-    );
+    try {
+      final selectedVehicleState = await _getVehicleStateUseCase(ean: vehicle.ean);
+
+      value = HomeScreenData(
+        vehicles: currentValue.vehicles,
+        selectedVehicleState: selectedVehicleState,
+      );
+    } catch (e) {
+      debugPrint('An error occurred while updating the selected vehicle: $e');
+
+      value = const HomeScreenError();
+    }
   }
 
   Future<void> _getChargingSessions() async {

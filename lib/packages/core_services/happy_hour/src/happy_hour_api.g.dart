@@ -83,6 +83,33 @@ class _HappyHourRestClient implements HappyHourRestClient {
     return value;
   }
 
+  @override
+  Future<VehicleStateModel> getVehicleState({required String ean}) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{r'ean': ean};
+    final _headers = <String, dynamic>{};
+    const Map<String, dynamic>? _data = null;
+    final _result = await _dio
+        .fetch<Map<String, dynamic>>(_setStreamType<VehicleStateModel>(Options(
+      method: 'GET',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/vehicles',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(
+                baseUrl: _combineBaseUrls(
+              _dio.options.baseUrl,
+              baseUrl,
+            ))));
+    final value = VehicleStateModel.fromJson(_result.data!);
+    return value;
+  }
+
   RequestOptions _setStreamType<T>(RequestOptions requestOptions) {
     if (T != dynamic &&
         !(requestOptions.responseType == ResponseType.bytes ||

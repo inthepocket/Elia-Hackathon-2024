@@ -49,7 +49,7 @@ class ProfileSection extends ConsumerWidget {
                                 selectCarPage(
                                   modalSheetContext: modalSheetContext,
                                   vehicles: data.vehicles,
-                                  initialVehicle: data.selectedVehicle,
+                                  initialVehicle: data.selectedVehicleState.metaData,
                                   onVehicleSelected: (Vehicle? vehicle) {
                                     if (vehicle != null) {
                                       final vm = ref.read(homeViewModelProvider);
@@ -66,7 +66,7 @@ class ProfileSection extends ConsumerWidget {
                             mainAxisSize: MainAxisSize.min,
                             children: [
                               Text(
-                                data.selectedVehicle.model,
+                                data.selectedVehicleState.metaData.model,
                                 style: const TextStyle(
                                   color: Colors.white,
                                   fontSize: 24.0,
@@ -147,7 +147,7 @@ class ProfileSection extends ConsumerWidget {
                 ),
               ),
               const SizedBox(height: 12.0),
-              _ProfileCard(selectedVehicle: data.selectedVehicle),
+              _ProfileCard(selectedVehicle: data.selectedVehicleState.metaData),
             ],
           ),
         ),
