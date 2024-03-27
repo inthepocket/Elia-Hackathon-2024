@@ -7,7 +7,7 @@ import '../home_viewmodel.dart';
 import '../di/pods.dart';
 import 'components/charging_session_request/widgets/request_departure_time_page.dart';
 import 'components/charging_session_request/widgets/request_desired_range.dart';
-import 'components/profile_card.dart';
+import 'components/profile_section.dart';
 
 class HomeScreen extends ConsumerStatefulWidget {
   const HomeScreen({super.key});
@@ -87,7 +87,7 @@ class _Body extends StatelessWidget {
       physics: ClampingScrollPhysics(),
       child: Column(
         children: [
-          ProfileCard(),
+          ProfileSection(),
           _ChargingSessionsSection(),
         ],
       ),
@@ -127,7 +127,7 @@ class _ChargingSessionsSection extends StatelessWidget {
 }
 
 class _ChargingSessions extends StatelessWidget {
-  const _ChargingSessions({super.key});
+  const _ChargingSessions();
 
   @override
   Widget build(BuildContext context) {

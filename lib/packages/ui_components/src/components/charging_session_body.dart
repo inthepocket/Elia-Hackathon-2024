@@ -79,7 +79,7 @@ class _SessionPeriod extends StatelessWidget {
 }
 
 class _ChargingState extends StatelessWidget {
-  const _ChargingState({super.key});
+  const _ChargingState();
 
   @override
   Widget build(BuildContext context) {
