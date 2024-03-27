@@ -2,7 +2,7 @@ import 'package:elia_hackathon_2024_app/packages/ui_components/ui_components.dar
 import 'package:flutter/cupertino.dart';
 import 'package:wolt_modal_sheet/wolt_modal_sheet.dart';
 
-import 'shared.dart';
+import '../../shared.dart';
 
 SliverWoltModalSheetPage requestDepartureTimePage({
   required BuildContext modalSheetContext,

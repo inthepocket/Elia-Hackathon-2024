@@ -92,7 +92,7 @@ class _BodyBuilder extends ConsumerWidget {
         return switch (state) {
           HomeScreenLoading() => const _LoadingBody(),
           HomeScreenError() => const _ErrorBody(),
-          HomeScreenData() => const _DataBody(),
+          HomeScreenData() => _DataBody(data: state),
         };
       },
     );
@@ -122,16 +122,20 @@ class _ErrorBody extends StatelessWidget {
 }
 
 class _DataBody extends StatelessWidget {
-  const _DataBody();
+  final HomeScreenData data;
+
+  const _DataBody({
+    required this.data,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return const SingleChildScrollView(
-      physics: ClampingScrollPhysics(),
+    return SingleChildScrollView(
+      physics: const ClampingScrollPhysics(),
       child: Column(
         children: [
-          ProfileSection(),
-          _ChargingSessionsSection(),
+          ProfileSection(data: data),
+          const _ChargingSessionsSection(),
         ],
       ),
     );

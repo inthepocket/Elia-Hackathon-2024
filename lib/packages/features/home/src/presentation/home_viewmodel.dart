@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../domain/entities/vehicle.dart';
 import '../domain/use_cases/get_charging_sessions_use_case.dart';
 import '../domain/use_cases/get_vehicles_use_case.dart';
 import 'models/home_screen_state.dart';
@@ -37,6 +38,20 @@ class HomeViewModel extends ValueNotifier<HomeScreenState> {
 
       value = const HomeScreenError();
     }
+  }
+
+  void onVehicleSelected(Vehicle vehicle) {
+    debugPrint('$_tag - onVehicleSelected(model: ${vehicle.model}, ean: ${vehicle.ean})');
+
+    final currentValue = value;
+    if (currentValue is! HomeScreenData) {
+      return;
+    }
+
+    value = HomeScreenData(
+      vehicles: currentValue.vehicles,
+      selectedVehicle: vehicle,
+    );
   }
 
   Future<void> _getChargingSessions() async {

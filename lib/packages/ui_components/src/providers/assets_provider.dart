@@ -20,5 +20,5 @@ class AssetsProviderImpl implements AssetsProvider {
   String get imageVolvoEx40 => 'assets/images/volvo_ex40.png';
 
   @override
-  String get imagePolestar2 => 'assets/images/polestar_2.png';
+  String get imagePolestar2 => 'assets/images/polestar2.png';
 }

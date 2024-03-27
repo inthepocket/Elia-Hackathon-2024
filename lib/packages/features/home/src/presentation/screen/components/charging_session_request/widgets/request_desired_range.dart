@@ -3,7 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:wolt_modal_sheet/wolt_modal_sheet.dart';
 
-import 'shared.dart';
+import '../../shared.dart';
 
 SliverWoltModalSheetPage requestDesiredRange({
   required BuildContext modalSheetContext,
