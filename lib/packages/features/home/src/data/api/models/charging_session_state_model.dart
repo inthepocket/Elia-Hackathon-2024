@@ -37,7 +37,7 @@ class ChargingSessionStateModel {
   final double lastSoc;
   final bool connected;
   final bool emptyOnReconnect;
-  final String stateTime;
+  final DateTime stateTime;
   final String ean;
   final String assetMode;
   final double maxProduction;

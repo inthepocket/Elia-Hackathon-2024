@@ -19,6 +19,10 @@ class ProfileSection extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final currentRangeKm =
+        (data.selectedVehicleState.currentState.soc * data.selectedVehicleState.metaData.kmPerKwh).round();
+    final currentRangePercentage = (currentRangeKm / data.selectedVehicleState.metaData.rangeKm * 100).round();
+
     return DecoratedBox(
       decoration: const BoxDecoration(
         color: Color(0xFF2B2B35),
@@ -105,16 +109,16 @@ class ProfileSection extends ConsumerWidget {
                         ),
                       ],
                     ),
-                    const Text.rich(
+                    Text.rich(
                       TextSpan(
-                        text: 'Current range 75',
-                        style: TextStyle(
+                        text: 'Current range $currentRangePercentage',
+                        style: const TextStyle(
                           color: Colors.white,
                           fontSize: 16.0,
                           fontWeight: FontWeight.w400,
                         ),
                         children: [
-                          TextSpan(
+                          const TextSpan(
                             text: '%',
                             style: TextStyle(
                               color: Colors.white,
@@ -123,13 +127,13 @@ class ProfileSection extends ConsumerWidget {
                             ),
                           ),
                           TextSpan(
-                            text: ' - 130',
-                            style: TextStyle(
+                            text: ' - $currentRangeKm',
+                            style: const TextStyle(
                               color: Colors.white,
                               fontSize: 16.0,
                               fontWeight: FontWeight.w400,
                             ),
-                            children: [
+                            children: const [
                               TextSpan(
                                 text: ' km',
                                 style: TextStyle(
@@ -147,7 +151,7 @@ class ProfileSection extends ConsumerWidget {
                 ),
               ),
               const SizedBox(height: 12.0),
-              _ProfileCard(selectedVehicle: data.selectedVehicleState.metaData),
+              _ProfileCard(data: data),
             ],
           ),
         ),
@@ -157,15 +161,60 @@ class ProfileSection extends ConsumerWidget {
 }
 
 class _ProfileCard extends ConsumerWidget {
-  final Vehicle selectedVehicle;
+  final HomeScreenData data;
 
   const _ProfileCard({
-    required this.selectedVehicle,
+    required this.data,
   });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final assetsProvider = ref.watch(assetsProviderProvider);
+
+    final sessions = data.selectedVehicleState.sessionsLast24hours;
+    sessions.sort((a, b) => b.startState.stateTime.compareTo(a.startState.stateTime));
+    final mostRecentSession = sessions.firstOrNull;
+
+    final Text sessionStartTime;
+    if (mostRecentSession == null) {
+      sessionStartTime = const Text(
+        'No session',
+        style: TextStyle(
+          color: Color(0xFF576C76),
+          fontSize: 14.0,
+          fontWeight: FontWeight.w600,
+        ),
+      );
+    } else {
+      final stateTime = mostRecentSession.startState.stateTime;
+      final hour = stateTime.hour.toString().padLeft(2, '0');
+      final minute = stateTime.minute.toString().padLeft(2, '0');
+
+      final endState = mostRecentSession.endState;
+
+      sessionStartTime = Text.rich(
+        TextSpan(
+          text: '$hour:$minute',
+          style: const TextStyle(
+            color: Color(0xFF576C76),
+            fontSize: 14.0,
+            fontWeight: FontWeight.w600,
+          ),
+          children: endState == null
+              ? const [
+                  TextSpan(
+                    text: ' - Now',
+                    style: TextStyle(
+                      color: Color(0xFF576C76),
+                      fontSize: 14.0,
+                      fontWeight: FontWeight.w400,
+                    ),
+                  ),
+                ]
+              : [],
+        ),
+      );
+    }
 
     return Container(
       decoration: const BoxDecoration(
@@ -196,7 +245,7 @@ class _ProfileCard extends ConsumerWidget {
           children: [
             Center(
               child: Image.asset(
-                selectedVehicle.getImage(assetsProvider),
+                data.selectedVehicleState.metaData.getImage(assetsProvider),
                 fit: BoxFit.fitWidth,
               ),
             ),
@@ -205,31 +254,7 @@ class _ProfileCard extends ConsumerWidget {
               mainAxisSize: MainAxisSize.max,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                const Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Text.rich(
-                      TextSpan(
-                        text: '08:32',
-                        style: TextStyle(
-                          color: Color(0xFF576C76),
-                          fontSize: 14.0,
-                          fontWeight: FontWeight.w600,
-                        ),
-                        children: [
-                          TextSpan(
-                            text: ' - Now',
-                            style: TextStyle(
-                              color: Color(0xFF576C76),
-                              fontSize: 14.0,
-                              fontWeight: FontWeight.w400,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
+                sessionStartTime,
                 EliaChip(
                   iconName: assetsProvider.iconRecharging,
                   text: 'Direct charging',
