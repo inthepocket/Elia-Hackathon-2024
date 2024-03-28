@@ -8,19 +8,31 @@ import '../../../../domain/entities/charging_session_state.dart';
 class Battery extends StatelessWidget {
   final ChargingSessionState currentState;
   final ChargingSessionState startState;
+  final ChargingSessionState? endState;
 
   const Battery({
     super.key,
     required this.currentState,
     required this.startState,
+    required this.endState,
   });
 
   @override
   Widget build(BuildContext context) {
     final fullBattery = startState.socMax.round();
-    final startBattery = startState.soc.round();
-    final currentHappyHourBattery = currentState.soc.round() - startBattery;
-    final expectedHappyHourBattery = fullBattery - startBattery;
+
+    final int startBattery;
+    int? currentHappyHourBattery;
+    final int expectedHappyHourBattery;
+
+    if (endState == null) {
+      startBattery = startState.soc.round();
+      currentHappyHourBattery = currentState.soc.round() - startBattery;
+      expectedHappyHourBattery = fullBattery - startBattery;
+    } else {
+      startBattery = endState!.soc.round();
+      expectedHappyHourBattery = fullBattery - startBattery;
+    }
 
     return Row(
       children: [
@@ -44,14 +56,16 @@ class Battery extends StatelessWidget {
                   flex: startBattery,
                   child: const _StartBatteryState(),
                 ),
-                const SizedBox(width: 2.0),
-                Expanded(
-                  flex: expectedHappyHourBattery,
-                  child: _ExpectedHappyHourBatteryState(
-                    currentHappyHourBattery: currentHappyHourBattery,
-                    expectedHappyHourBattery: expectedHappyHourBattery,
+                if (expectedHappyHourBattery > 0) ...[
+                  const SizedBox(width: 2.0),
+                  Expanded(
+                    flex: expectedHappyHourBattery,
+                    child: _ExpectedHappyHourBatteryState(
+                      currentHappyHourBattery: currentHappyHourBattery,
+                      expectedHappyHourBattery: expectedHappyHourBattery,
+                    ),
                   ),
-                ),
+                ],
               ],
             ),
           ),
@@ -77,17 +91,17 @@ class _StartBatteryState extends StatelessWidget {
 }
 
 class _ExpectedHappyHourBatteryState extends StatelessWidget {
-  final int currentHappyHourBattery;
+  final int? currentHappyHourBattery;
   final int expectedHappyHourBattery;
 
   const _ExpectedHappyHourBatteryState({
-    required this.currentHappyHourBattery,
+    this.currentHappyHourBattery,
     required this.expectedHappyHourBattery,
   });
 
   @override
   Widget build(BuildContext context) {
-    final happyHourBatteryPercentage = currentHappyHourBattery / expectedHappyHourBattery;
+    final happyHourBatteryPercentage = (currentHappyHourBattery ?? 0) / expectedHappyHourBattery;
 
     return Stack(
       children: [

@@ -316,6 +316,7 @@ class _Card extends ConsumerWidget {
               Battery(
                 currentState: data.selectedVehicleState.currentState,
                 startState: mostRecentSession.startState,
+                endState: mostRecentSession.endState,
               ),
               const SizedBox(height: 8.0),
             ],

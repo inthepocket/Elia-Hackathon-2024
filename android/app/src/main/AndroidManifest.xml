@@ -6,7 +6,7 @@
     <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
     
     <application
-        android:label="elia_hackathon_2024_app"
+        android:label="Happy Hour"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
