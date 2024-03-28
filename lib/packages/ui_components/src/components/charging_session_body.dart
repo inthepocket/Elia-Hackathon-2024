@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../di/pods.dart';
 import 'elia_chip.dart';
 
 class ChargingSessionBody extends ConsumerWidget {
@@ -26,36 +25,35 @@ class ChargingSessionBody extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final assetsProvider = ref.watch(assetsProviderProvider);
-
-    final chargedPercentage = (kmAfterCharing - kmBeforeCharging) / maxKm * 100;
-
     return Column(
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        _SessionPeriod(
-          startTime: startTime,
-          endTime: endTime,
-        ),
-        const SizedBox(height: 8.0),
-        const _ChargingState(),
-        const SizedBox(height: 8.0),
         Row(
           mainAxisSize: MainAxisSize.max,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            EliaChip(
-              iconName: assetsProvider.iconBolt,
-              text: '+${chargedPercentage.round()}%',
-              backgroundColor: const Color(0xFFE2F0E2),
-              foregroundColor: const Color(0xFF3C9C41),
+            _SessionPeriod(
+              startTime: startTime,
+              endTime: endTime,
             ),
-            _AmountSaved(
-              amountSaved: amountSaved,
-              currencySymbol: currencySymbol,
+            const EliaChip(
+              text: '2,06 €',
+              backgroundColor: Color(0xFFE2F0E2),
+              foregroundColor: Color(0xFF3C9C41),
             ),
           ],
+        ),
+        const SizedBox(height: 8.0),
+        _ChargingState(
+          kmBeforeCharging: kmBeforeCharging,
+          kmAfterCharing: kmAfterCharing,
+          maxKm: maxKm,
+        ),
+        const SizedBox(height: 8.0),
+        _AmountSaved(
+          amountSaved: amountSaved,
+          currencySymbol: currencySymbol,
         ),
       ],
     );
@@ -73,51 +71,83 @@ class _SessionPeriod extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Text(
-      '$startTime - $endTime',
-      style: const TextStyle(
-        fontSize: 14,
-        fontWeight: FontWeight.w400,
+    return Text.rich(
+      TextSpan(
+        text: startTime,
+        style: const TextStyle(
+          fontSize: 14,
+          fontWeight: FontWeight.w600,
+          color: Color(0xFF576C76),
+        ),
+        children: [
+          TextSpan(
+            text: ' - $endTime',
+            style: const TextStyle(
+              fontSize: 14,
+              fontWeight: FontWeight.w400,
+              color: Color(0xFF576C76),
+            ),
+          ),
+        ],
       ),
     );
   }
 }
 
 class _ChargingState extends StatelessWidget {
-  const _ChargingState();
+  final double kmBeforeCharging;
+  final double kmAfterCharing;
+  final double maxKm;
+
+  const _ChargingState({
+    required this.kmBeforeCharging,
+    required this.kmAfterCharing,
+    required this.maxKm,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return const SizedBox(
+    return SizedBox(
       height: 4.0,
       width: double.infinity,
       child: CustomPaint(
-        painter: _ChargingStatePainter(),
+        painter: _ChargingStatePainter(
+          kmBeforeCharging: kmBeforeCharging,
+          kmAfterCharing: kmAfterCharing,
+          maxKm: maxKm,
+        ),
       ),
     );
   }
 }
 
 class _ChargingStatePainter extends CustomPainter {
-  const _ChargingStatePainter();
+  final double kmBeforeCharging;
+  final double kmAfterCharing;
+  final double maxKm;
+
+  const _ChargingStatePainter({
+    required this.kmBeforeCharging,
+    required this.kmAfterCharing,
+    required this.maxKm,
+  });
 
   @override
   void paint(Canvas canvas, Size size) {
     final paint = Paint()
       ..color = const Color(0xFF8B8B8B)
-      ..strokeWidth = 2.0;
+      ..strokeWidth = 4.0;
 
     const lineStart = Offset(0.0, 0.0);
 
     final maxKmEnd = Offset(size.width, 0.0);
     canvas.drawLine(lineStart, maxKmEnd, paint);
 
-    final kmAfterChargingEnd = Offset(size.width * 0.6, 0.0);
-    paint.strokeWidth = 4.0;
+    final kmAfterChargingEnd = Offset(size.width * (kmAfterCharing / maxKm), 0.0);
     paint.color = const Color(0xFF53C37B);
     canvas.drawLine(lineStart, kmAfterChargingEnd, paint);
 
-    final kmBeforeChargingEnd = Offset(size.width * 0.3, 0.0);
+    final kmBeforeChargingEnd = Offset(size.width * (kmBeforeCharging / maxKm), 0.0);
     paint.color = const Color(0xFFB7B7B7);
     canvas.drawLine(lineStart, kmBeforeChargingEnd, paint);
   }
@@ -137,22 +167,12 @@ class _AmountSaved extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Text.rich(
-      TextSpan(
-        text: '$amountSaved ',
-        style: const TextStyle(
-          fontSize: 15,
-          fontWeight: FontWeight.w400,
-        ),
-        children: [
-          TextSpan(
-            text: currencySymbol,
-            style: const TextStyle(
-              fontSize: 12,
-              fontWeight: FontWeight.w500,
-            ),
-          ),
-        ],
+    return const Text(
+      '40 kWh — that’s enough energy to rewind over 10,000 VHS tapes back to the start!',
+      style: TextStyle(
+        fontSize: 12.0,
+        fontWeight: FontWeight.w400,
+        color: Color(0xFF576C76),
       ),
     );
   }

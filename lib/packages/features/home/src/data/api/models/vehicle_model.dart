@@ -25,6 +25,9 @@ class VehicleModel {
   @JsonKey(name: 'KmPerKwh')
   final double kmPerKwh;
 
+  @JsonKey(name: 'Reward')
+  final double reward;
+
   const VehicleModel({
     required this.id,
     required this.model,
@@ -33,6 +36,7 @@ class VehicleModel {
     required this.rangeKm,
     required this.ean,
     required this.kmPerKwh,
+    required this.reward,
   });
 
   factory VehicleModel.fromJson(Map<String, dynamic> json) => _$VehicleModelFromJson(json);

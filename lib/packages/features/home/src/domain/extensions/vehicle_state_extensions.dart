@@ -8,7 +8,6 @@ extension VehicleStateModelX on VehicleStateModel {
     return VehicleState(
       metaData: metadata.toEntity(),
       currentState: currentState.toEntity(),
-      currentRealTimePrice: currentRealTimePrice,
       mostRecentSessions: mostRecentSessions == null ? [] : mostRecentSessions!.map((e) => e.toEntity()).toList(),
     );
   }

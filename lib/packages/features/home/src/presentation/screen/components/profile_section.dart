@@ -1,3 +1,4 @@
+import 'package:elia_hackathon_2024_app/packages/core_services/date_formatter/date_formatter.dart';
 import 'package:elia_hackathon_2024_app/packages/ui_components/ui_components.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -92,15 +93,15 @@ class ProfileSection extends ConsumerWidget {
                             ],
                           ),
                         ),
-                        const Text.rich(
+                        Text.rich(
                           TextSpan(
-                            text: '27,03',
-                            style: TextStyle(
+                            text: data.selectedVehicleState.metaData.reward.toStringAsFixed(2).replaceAll('.', ','),
+                            style: const TextStyle(
                               color: Colors.white,
                               fontSize: 16.0,
                               fontWeight: FontWeight.w400,
                             ),
-                            children: [
+                            children: const [
                               TextSpan(
                                 text: ' €',
                                 style: TextStyle(
@@ -175,6 +176,7 @@ class _ProfileCard extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final assetsProvider = ref.watch(assetsProviderProvider);
+    final dateFormatter = ref.watch(dateFormatterProvider);
 
     final sessions = data.selectedVehicleState.mostRecentSessions;
     sessions.sort((a, b) => b.startState.stateTime.compareTo(a.startState.stateTime));
@@ -192,33 +194,39 @@ class _ProfileCard extends ConsumerWidget {
       );
     } else {
       final stateTime = mostRecentSession.startState.stateTime;
-      final hour = stateTime.hour.toString().padLeft(2, '0');
-      final minute = stateTime.minute.toString().padLeft(2, '0');
-
       final endState = mostRecentSession.endState;
 
-      sessionStartTime = Text.rich(
-        TextSpan(
-          text: '$hour:$minute',
-          style: const TextStyle(
-            color: Color(0xFF576C76),
-            fontSize: 14.0,
-            fontWeight: FontWeight.w600,
-          ),
-          children: endState == null
-              ? const [
-                  TextSpan(
-                    text: ' - Now',
-                    style: TextStyle(
-                      color: Color(0xFF576C76),
-                      fontSize: 14.0,
-                      fontWeight: FontWeight.w400,
-                    ),
-                  ),
-                ]
-              : [],
-        ),
-      );
+      sessionStartTime = data.selectedVehicleState.currentState.connected
+          ? Text.rich(
+              TextSpan(
+                text: dateFormatter.formatTime(stateTime),
+                style: const TextStyle(
+                  color: Color(0xFF576C76),
+                  fontSize: 14.0,
+                  fontWeight: FontWeight.w600,
+                ),
+                children: endState == null
+                    ? const [
+                        TextSpan(
+                          text: ' - Now',
+                          style: TextStyle(
+                            color: Color(0xFF576C76),
+                            fontSize: 14.0,
+                            fontWeight: FontWeight.w400,
+                          ),
+                        ),
+                      ]
+                    : [],
+              ),
+            )
+          : const Text(
+              'Enjoy your ride',
+              style: TextStyle(
+                color: Color(0xFF576C76),
+                fontSize: 14.0,
+                fontWeight: FontWeight.w600,
+              ),
+            );
     }
 
     return Container(

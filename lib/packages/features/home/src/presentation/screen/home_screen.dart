@@ -1,8 +1,11 @@
+import 'package:elia_hackathon_2024_app/packages/core_services/date_formatter/date_formatter.dart';
 import 'package:elia_hackathon_2024_app/packages/ui_components/ui_components.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:intersperse/intersperse.dart';
 import 'package:wolt_modal_sheet/wolt_modal_sheet.dart';
 
+import '../../domain/entities/charging_session.dart';
 import '../home_viewmodel.dart';
 import '../di/pods.dart';
 import '../models/home_screen_state.dart';
@@ -32,6 +35,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
       backgroundColor: const Color(0xFF1F1F27),
       body: const _BodyBuilder(),
       floatingActionButton: FloatingActionButton(
+        backgroundColor: const Color(0xFFE75420),
         onPressed: () {
           final vm = ref.read<HomeViewModel>(homeViewModelProvider);
 
@@ -74,6 +78,10 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
             onModalDismissedWithBarrierTap: Navigator.of(context).pop,
           );
         },
+        child: const Icon(
+          Icons.drive_eta,
+          color: Colors.white,
+        ),
       ),
     );
   }
@@ -135,7 +143,7 @@ class _DataBody extends StatelessWidget {
       child: Column(
         children: [
           ProfileSection(data: data),
-          const _ChargingSessionsSection(),
+          _ChargingSessionsSection(data: data),
         ],
       ),
     );
@@ -143,29 +151,35 @@ class _DataBody extends StatelessWidget {
 }
 
 class _ChargingSessionsSection extends StatelessWidget {
-  const _ChargingSessionsSection();
+  final HomeScreenData data;
+
+  const _ChargingSessionsSection({
+    required this.data,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return const SafeArea(
+    return SafeArea(
       left: false,
       top: false,
       right: false,
       child: Padding(
-        padding: EdgeInsets.fromLTRB(12.0, 32.0, 12.0, 16.0),
+        padding: const EdgeInsets.fromLTRB(12.0, 32.0, 12.0, 16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
+            const Text(
               'Session history',
               style: TextStyle(
                 fontSize: 14.0,
-                fontWeight: FontWeight.w500,
+                fontWeight: FontWeight.w600,
                 color: Colors.white,
               ),
             ),
-            SizedBox(height: 12.0),
-            _ChargingSessions(),
+            const SizedBox(height: 12.0),
+            _ChargingSessions(
+              mostRecentSessions: data.selectedVehicleState.mostRecentSessions,
+            ),
           ],
         ),
       ),
@@ -173,145 +187,35 @@ class _ChargingSessionsSection extends StatelessWidget {
   }
 }
 
-class _ChargingSessions extends StatelessWidget {
-  const _ChargingSessions();
+class _ChargingSessions extends ConsumerWidget {
+  final List<ChargingSession> mostRecentSessions;
+
+  const _ChargingSessions({
+    required this.mostRecentSessions,
+  });
 
   @override
-  Widget build(BuildContext context) {
-    return const Column(
-      children: [
-        ChargingSessionContainer(
-          child: ChargingSessionBody(
-            startTime: '17:00',
-            endTime: '18:00',
-            kmBeforeCharging: 100.0,
-            kmAfterCharing: 150.0,
-            maxKm: 400.0,
-            amountSaved: '5,00',
-            currencySymbol: '€',
+  Widget build(BuildContext context, WidgetRef ref) {
+    final dateFormatter = ref.watch(dateFormatterProvider);
+
+    final chargingSessions = mostRecentSessions
+        .where((session) => session.endState != null)
+        .map<Widget>(
+          (session) => ChargingSessionContainer(
+            child: ChargingSessionBody(
+              startTime: dateFormatter.formatTime(session.startState.stateTime),
+              endTime: dateFormatter.formatTime(session.endState!.stateTime),
+              kmBeforeCharging: session.startState.soc,
+              kmAfterCharing: session.endState!.soc,
+              maxKm: session.startState.socMax,
+              amountSaved: '5,00',
+              currencySymbol: '€',
+            ),
           ),
-        ),
-        SizedBox(height: 6.0),
-        ChargingSessionContainer(
-          child: ChargingSessionBody(
-            startTime: '17:00',
-            endTime: '18:00',
-            kmBeforeCharging: 100.0,
-            kmAfterCharing: 150.0,
-            maxKm: 400.0,
-            amountSaved: '5,00',
-            currencySymbol: '€',
-          ),
-        ),
-        SizedBox(height: 6.0),
-        ChargingSessionContainer(
-          child: ChargingSessionBody(
-            startTime: '17:00',
-            endTime: '18:00',
-            kmBeforeCharging: 100.0,
-            kmAfterCharing: 150.0,
-            maxKm: 400.0,
-            amountSaved: '5,00',
-            currencySymbol: '€',
-          ),
-        ),
-        SizedBox(height: 6.0),
-        ChargingSessionContainer(
-          child: ChargingSessionBody(
-            startTime: '17:00',
-            endTime: '18:00',
-            kmBeforeCharging: 100.0,
-            kmAfterCharing: 150.0,
-            maxKm: 400.0,
-            amountSaved: '5,00',
-            currencySymbol: '€',
-          ),
-        ),
-        SizedBox(height: 6.0),
-        ChargingSessionContainer(
-          child: ChargingSessionBody(
-            startTime: '17:00',
-            endTime: '18:00',
-            kmBeforeCharging: 100.0,
-            kmAfterCharing: 150.0,
-            maxKm: 400.0,
-            amountSaved: '5,00',
-            currencySymbol: '€',
-          ),
-        ),
-        SizedBox(height: 6.0),
-        ChargingSessionContainer(
-          child: ChargingSessionBody(
-            startTime: '17:00',
-            endTime: '18:00',
-            kmBeforeCharging: 100.0,
-            kmAfterCharing: 150.0,
-            maxKm: 400.0,
-            amountSaved: '5,00',
-            currencySymbol: '€',
-          ),
-        ),
-        SizedBox(height: 6.0),
-        ChargingSessionContainer(
-          child: ChargingSessionBody(
-            startTime: '17:00',
-            endTime: '18:00',
-            kmBeforeCharging: 100.0,
-            kmAfterCharing: 150.0,
-            maxKm: 400.0,
-            amountSaved: '5,00',
-            currencySymbol: '€',
-          ),
-        ),
-        SizedBox(height: 6.0),
-        ChargingSessionContainer(
-          child: ChargingSessionBody(
-            startTime: '17:00',
-            endTime: '18:00',
-            kmBeforeCharging: 100.0,
-            kmAfterCharing: 150.0,
-            maxKm: 400.0,
-            amountSaved: '5,00',
-            currencySymbol: '€',
-          ),
-        ),
-        SizedBox(height: 6.0),
-        ChargingSessionContainer(
-          child: ChargingSessionBody(
-            startTime: '17:00',
-            endTime: '18:00',
-            kmBeforeCharging: 100.0,
-            kmAfterCharing: 150.0,
-            maxKm: 400.0,
-            amountSaved: '5,00',
-            currencySymbol: '€',
-          ),
-        ),
-        SizedBox(height: 6.0),
-        ChargingSessionContainer(
-          child: ChargingSessionBody(
-            startTime: '17:00',
-            endTime: '18:00',
-            kmBeforeCharging: 100.0,
-            kmAfterCharing: 150.0,
-            maxKm: 400.0,
-            amountSaved: '5,00',
-            currencySymbol: '€',
-          ),
-        ),
-        SizedBox(height: 6.0),
-        ChargingSessionContainer(
-          child: ChargingSessionBody(
-            startTime: '17:00',
-            endTime: '18:00',
-            kmBeforeCharging: 100.0,
-            kmAfterCharing: 150.0,
-            maxKm: 400.0,
-            amountSaved: '5,00',
-            currencySymbol: '€',
-          ),
-        ),
-      ],
-    );
+        )
+        .intersperse(const SizedBox(height: 6.0))
+        .toList();
+
+    return Column(children: chargingSessions);
   }
 }

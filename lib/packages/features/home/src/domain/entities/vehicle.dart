@@ -8,6 +8,7 @@ class Vehicle extends Equatable {
   final double rangeKm;
   final String ean;
   final double kmPerKwh;
+  final double reward;
 
   const Vehicle({
     required this.id,
@@ -17,6 +18,7 @@ class Vehicle extends Equatable {
     required this.rangeKm,
     required this.ean,
     required this.kmPerKwh,
+    required this.reward,
   });
 
   @override

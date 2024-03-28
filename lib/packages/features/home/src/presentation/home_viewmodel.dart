@@ -19,6 +19,8 @@ class HomeViewModel extends ValueNotifier<HomeScreenState> {
   final GetVehiclesUseCase _getVehiclesUseCase;
   final GetVehicleStateUseCase _getVehicleStateUseCase;
 
+  late Vehicle _carToPoll;
+
   Future<void> init() async {
     debugPrint('$_tag - init()');
 
@@ -39,6 +41,8 @@ class HomeViewModel extends ValueNotifier<HomeScreenState> {
         vehicles: vehicles,
         selectedVehicleState: selectedVehicleState,
       );
+
+      onVehicleSelected(selectedVehicle);
     } catch (e) {
       debugPrint('An error occurred while fetching the vehicles: $e');
 
@@ -49,13 +53,18 @@ class HomeViewModel extends ValueNotifier<HomeScreenState> {
   Future<void> onVehicleSelected(Vehicle vehicle) async {
     debugPrint('$_tag - onVehicleSelected(model: ${vehicle.model}, ean: ${vehicle.ean})');
 
-    final currentValue = value;
-    if (currentValue is! HomeScreenData) {
-      return;
-    }
+    _carToPoll = vehicle;
 
+    _pollVehicleState(vehicle);
+  }
+
+  Future<void> _pollVehicleState(Vehicle vehicle) async {
     try {
       final selectedVehicleState = await _getVehicleStateUseCase(ean: vehicle.ean);
+      final currentValue = value;
+      if (currentValue is! HomeScreenData || _carToPoll.ean != vehicle.ean) {
+        return;
+      }
 
       value = HomeScreenData(
         vehicles: currentValue.vehicles,
@@ -63,28 +72,31 @@ class HomeViewModel extends ValueNotifier<HomeScreenState> {
       );
     } catch (e) {
       debugPrint('An error occurred while updating the selected vehicle: $e');
-
-      value = const HomeScreenError();
+    } finally {
+      final currentValue = value;
+      if (currentValue is HomeScreenData && _carToPoll.ean == vehicle.ean) {
+        Future.delayed(const Duration(seconds: 1), () => _pollVehicleState(vehicle));
+      }
     }
   }
 
-  Future<void> _getChargingSessions() async {
-    debugPrint('$_tag - _getChargingSessions()');
+  // Future<void> _getChargingSessions() async {
+  //   debugPrint('$_tag - _getChargingSessions()');
 
-    try {
-      final realtime = DateTime.now().toUtc().toString();
-      debugPrint('Realtime: $realtime');
+  //   try {
+  //     final realtime = DateTime.now().toUtc().toString();
+  //     debugPrint('Realtime: $realtime');
 
-      final chargingSessions = await _getChargingSessionsUseCase(
-        ean: '541983310278725782',
-        realTime: DateTime.now().toUtc().toString(),
-      );
+  //     final chargingSessions = await _getChargingSessionsUseCase(
+  //       ean: '541983310278725782',
+  //       realTime: DateTime.now().toUtc().toString(),
+  //     );
 
-      debugPrint(chargingSessions.toString());
-    } catch (e) {
-      debugPrint('An error occurred while fetching the charging sessions: $e');
-    }
-  }
+  //     debugPrint(chargingSessions.toString());
+  //   } catch (e) {
+  //     debugPrint('An error occurred while fetching the charging sessions: $e');
+  //   }
+  // }
 
   Future<void> onChargingSessionRequested({
     required DateTime departureTime,

@@ -17,6 +17,7 @@ SliverWoltModalSheetPage requestDesiredRange({
 
   return WoltModalSheetPage(
     hasTopBarLayer: false,
+    surfaceTintColor: Colors.white,
     child: SafeArea(
       child: Column(
         children: [

@@ -14,16 +14,12 @@ class VehicleStateModel {
   @JsonKey(name: 'CurrentState')
   final ChargingSessionStateModel currentState;
 
-  @JsonKey(name: 'CurrentRealTimePrice')
-  final double currentRealTimePrice;
-
   @JsonKey(name: 'SessionsLast5Days')
   final List<ChargingSessionModel>? mostRecentSessions;
 
   VehicleStateModel({
     required this.metadata,
     required this.currentState,
-    required this.currentRealTimePrice,
     this.mostRecentSessions,
   });
 

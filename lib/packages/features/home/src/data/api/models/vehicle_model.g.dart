@@ -14,6 +14,7 @@ VehicleModel _$VehicleModelFromJson(Map<String, dynamic> json) => VehicleModel(
       rangeKm: (json['RangeKm'] as num).toDouble(),
       ean: json['Ean'] as String,
       kmPerKwh: (json['KmPerKwh'] as num).toDouble(),
+      reward: (json['Reward'] as num).toDouble(),
     );
 
 Map<String, dynamic> _$VehicleModelToJson(VehicleModel instance) =>
@@ -25,4 +26,5 @@ Map<String, dynamic> _$VehicleModelToJson(VehicleModel instance) =>
       'RangeKm': instance.rangeKm,
       'Ean': instance.ean,
       'KmPerKwh': instance.kmPerKwh,
+      'Reward': instance.reward,
     };

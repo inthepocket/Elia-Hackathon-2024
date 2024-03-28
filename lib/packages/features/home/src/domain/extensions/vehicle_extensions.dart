@@ -11,6 +11,7 @@ extension VehicleModelX on VehicleModel {
       rangeKm: rangeKm,
       ean: ean,
       kmPerKwh: kmPerKwh,
+      reward: reward,
     );
   }
 }
