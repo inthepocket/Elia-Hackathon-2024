@@ -1,3 +1,4 @@
+import 'package:collection/collection.dart';
 import 'package:elia_hackathon_2024_app/packages/core_services/date_formatter/date_formatter.dart';
 import 'package:elia_hackathon_2024_app/packages/ui_components/ui_components.dart';
 import 'package:flutter/material.dart';
@@ -205,8 +206,15 @@ class _ChargingSessions extends ConsumerWidget {
 
     final chargingSessions = mostRecentSessions
         .where((session) => session.endState != null)
-        .map<Widget>(
-          (session) => ChargingSessionContainer(
+        .mapIndexed<Widget>((index, session) {
+          final kmBeforeCharging = session.startState.soc;
+          final kmAfterCharing = session.endState!.soc;
+          final difference = (kmAfterCharing - kmBeforeCharging).round();
+
+          final triviaIndex = index % _trivia.length;
+          final trivia = difference == 0 ? null : _trivia[triviaIndex].replaceAll('%s', difference.toString());
+
+          return ChargingSessionContainer(
             child: ChargingSessionBody(
               startTime: dateFormatter.formatTime(session.startState.stateTime),
               endTime: dateFormatter.formatTime(session.endState!.stateTime),
@@ -215,12 +223,22 @@ class _ChargingSessions extends ConsumerWidget {
               maxKm: session.startState.socMax,
               amountSaved: amountSaved,
               currencySymbol: '€',
+              trivia: trivia,
             ),
-          ),
-        )
+          );
+        })
         .intersperse(const SizedBox(height: 6.0))
         .toList();
 
     return Column(children: chargingSessions);
   }
 }
+
+const _trivia = [
+  '%s kWh — that’s enough energy to power a rocking chair for non-stop rocking to “Hotel California” for a whole year!',
+  '%s kWh — that’s enough energy to rewind over 11,000 VHS tapes, talk about a blockbuster night!',
+  '%s kWh — that’s enough energy to power over 17,000 hours of groovy vinyl records on your old-school turntable!',
+  '%s kWh — imagine juicing up 6 million retro Casio calculators, now that’s some serious number-crunching energy!',
+  '%s kWh — that’s enough energy to keep your phone alive for 3 years of relentless TikTok scrolling!',
+  '%s kWh — that’s enough energy to power your smartphone for nonstop social media scrolling through approximately 24,000 selfies!',
+];

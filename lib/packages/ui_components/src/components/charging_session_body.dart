@@ -11,6 +11,7 @@ class ChargingSessionBody extends ConsumerWidget {
   final double maxKm;
   final String amountSaved;
   final String currencySymbol;
+  final String? trivia;
 
   const ChargingSessionBody({
     super.key,
@@ -21,6 +22,7 @@ class ChargingSessionBody extends ConsumerWidget {
     required this.maxKm,
     required this.amountSaved,
     required this.currencySymbol,
+    this.trivia,
   });
 
   @override
@@ -50,8 +52,10 @@ class ChargingSessionBody extends ConsumerWidget {
           kmAfterCharing: kmAfterCharing,
           maxKm: maxKm,
         ),
-        const SizedBox(height: 8.0),
-        const _AmountSaved(),
+        if (trivia != null) ...[
+          const SizedBox(height: 8.0),
+          _Trivia(trivia: trivia!),
+        ],
       ],
     );
   }
@@ -153,14 +157,18 @@ class _ChargingStatePainter extends CustomPainter {
   bool shouldRepaint(_ChargingStatePainter oldDelegate) => true;
 }
 
-class _AmountSaved extends StatelessWidget {
-  const _AmountSaved();
+class _Trivia extends StatelessWidget {
+  final String trivia;
+
+  const _Trivia({
+    required this.trivia,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return const Text(
-      '40 kWh — that’s enough energy to rewind over 10,000 VHS tapes back to the start!',
-      style: TextStyle(
+    return Text(
+      trivia,
+      style: const TextStyle(
         fontSize: 12.0,
         fontWeight: FontWeight.w400,
         color: Color(0xFF576C76),
