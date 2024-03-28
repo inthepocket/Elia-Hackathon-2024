@@ -14,30 +14,33 @@ SliverWoltModalSheetPage requestDepartureTimePage({
   return WoltModalSheetPage(
     hasTopBarLayer: false,
     surfaceTintColor: Colors.white,
-    child: SafeArea(
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: SpacingTokens.ml),
-        child: Column(
-          children: [
-            const SizedBox(height: SpacingTokens.l),
-            const ModalTitle(text: 'When are you leaving?'),
-            const SizedBox(height: SpacingTokens.s),
-            SizedBox(
-              height: 178.0,
-              width: double.infinity,
-              child: CupertinoDatePicker(
-                mode: CupertinoDatePickerMode.time,
-                initialDateTime: initialDepartureTime,
-                use24hFormat: true,
-                onDateTimeChanged: onDepartureTimeSelected,
+    child: Padding(
+      padding: const EdgeInsets.only(bottom: SpacingTokens.ml),
+      child: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: SpacingTokens.ml),
+          child: Column(
+            children: [
+              const SizedBox(height: SpacingTokens.l),
+              const ModalTitle(text: 'When are you leaving?'),
+              const SizedBox(height: SpacingTokens.s),
+              SizedBox(
+                height: 178.0,
+                width: double.infinity,
+                child: CupertinoDatePicker(
+                  mode: CupertinoDatePickerMode.time,
+                  initialDateTime: initialDepartureTime,
+                  use24hFormat: true,
+                  onDateTimeChanged: onDepartureTimeSelected,
+                ),
               ),
-            ),
-            const SizedBox(height: SpacingTokens.m),
-            PrimaryButton(
-              text: 'Next',
-              onPressed: onNextPressed,
-            ),
-          ],
+              const SizedBox(height: SpacingTokens.m),
+              PrimaryButton(
+                text: 'Next',
+                onPressed: onNextPressed,
+              ),
+            ],
+          ),
         ),
       ),
     ),

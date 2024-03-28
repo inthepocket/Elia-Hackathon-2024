@@ -74,14 +74,14 @@ SliverWoltModalSheetPage selectCarPage({
     hasTopBarLayer: false,
     backgroundColor: Colors.white,
     surfaceTintColor: Colors.white,
-    child: SafeArea(
-      child: Padding(
-        padding: const EdgeInsets.fromLTRB(
-          SpacingTokens.ml,
-          SpacingTokens.l,
-          SpacingTokens.ml,
-          SpacingTokens.ml,
-        ),
+    child: Padding(
+      padding: const EdgeInsets.fromLTRB(
+        SpacingTokens.ml,
+        SpacingTokens.l,
+        SpacingTokens.ml,
+        SpacingTokens.ml,
+      ),
+      child: SafeArea(
         child: Column(children: tiles),
       ),
     ),
