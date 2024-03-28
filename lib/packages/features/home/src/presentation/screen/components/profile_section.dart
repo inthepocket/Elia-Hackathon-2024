@@ -156,7 +156,7 @@ class ProfileSection extends ConsumerWidget {
                   ],
                 ),
               ),
-              const SizedBox(height: 12.0),
+              const SizedBox(height: 16.0),
               _ProfileCard(data: data),
             ],
           ),
