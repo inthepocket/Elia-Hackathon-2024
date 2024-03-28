@@ -31,7 +31,7 @@ class EliaChip extends StatelessWidget {
               iconName!,
               colorFilter: ColorFilter.mode(
                 foregroundColor,
-                BlendMode.dstIn,
+                BlendMode.srcIn,
               ),
             ),
             const SizedBox(width: 2.0),
