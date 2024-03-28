@@ -37,10 +37,10 @@ class ChargingSessionBody extends ConsumerWidget {
               startTime: startTime,
               endTime: endTime,
             ),
-            const EliaChip(
-              text: '2,06 €',
-              backgroundColor: Color(0xFFE2F0E2),
-              foregroundColor: Color(0xFF3C9C41),
+            EliaChip(
+              text: '$amountSaved $currencySymbol',
+              backgroundColor: const Color(0xFFE2F0E2),
+              foregroundColor: const Color(0xFF3C9C41),
             ),
           ],
         ),
@@ -51,10 +51,7 @@ class ChargingSessionBody extends ConsumerWidget {
           maxKm: maxKm,
         ),
         const SizedBox(height: 8.0),
-        _AmountSaved(
-          amountSaved: amountSaved,
-          currencySymbol: currencySymbol,
-        ),
+        const _AmountSaved(),
       ],
     );
   }
@@ -157,13 +154,7 @@ class _ChargingStatePainter extends CustomPainter {
 }
 
 class _AmountSaved extends StatelessWidget {
-  final String amountSaved;
-  final String currencySymbol;
-
-  const _AmountSaved({
-    required this.amountSaved,
-    required this.currencySymbol,
-  });
+  const _AmountSaved();
 
   @override
   Widget build(BuildContext context) {

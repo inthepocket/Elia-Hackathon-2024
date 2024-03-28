@@ -320,26 +320,26 @@ class _Card extends ConsumerWidget {
               ),
               const SizedBox(height: 8.0),
             ],
-            const Text.rich(
-              TextSpan(
-                text: 'Estimated full charge time at ',
-                style: TextStyle(
-                  color: Color(0xFF576C76),
-                  fontSize: 12.0,
-                  fontWeight: FontWeight.w400,
-                ),
-                children: [
-                  TextSpan(
-                    text: '13:25',
-                    style: TextStyle(
-                      color: Color(0xFF576C76),
-                      fontSize: 12.0,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                ],
-              ),
-            ),
+            // const Text.rich(
+            //   TextSpan(
+            //     text: 'Estimated full charge time at ',
+            //     style: TextStyle(
+            //       color: Color(0xFF576C76),
+            //       fontSize: 12.0,
+            //       fontWeight: FontWeight.w400,
+            //     ),
+            //     children: [
+            //       TextSpan(
+            //         text: '13:25',
+            //         style: TextStyle(
+            //           color: Color(0xFF576C76),
+            //           fontSize: 12.0,
+            //           fontWeight: FontWeight.w600,
+            //         ),
+            //       ),
+            //     ],
+            //   ),
+            // ),
           ],
         ),
       ),

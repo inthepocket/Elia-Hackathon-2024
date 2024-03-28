@@ -179,6 +179,7 @@ class _ChargingSessionsSection extends StatelessWidget {
             const SizedBox(height: 12.0),
             _ChargingSessions(
               mostRecentSessions: data.selectedVehicleState.mostRecentSessions,
+              totalReward: data.selectedVehicleState.metaData.reward,
             ),
           ],
         ),
@@ -189,14 +190,18 @@ class _ChargingSessionsSection extends StatelessWidget {
 
 class _ChargingSessions extends ConsumerWidget {
   final List<ChargingSession> mostRecentSessions;
+  final double totalReward;
 
   const _ChargingSessions({
     required this.mostRecentSessions,
+    required this.totalReward,
   });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final dateFormatter = ref.watch(dateFormatterProvider);
+
+    final amountSaved = (totalReward / mostRecentSessions.length).toStringAsFixed(2).replaceAll('.', ',');
 
     final chargingSessions = mostRecentSessions
         .where((session) => session.endState != null)
@@ -208,7 +213,7 @@ class _ChargingSessions extends ConsumerWidget {
               kmBeforeCharging: session.startState.soc,
               kmAfterCharing: session.endState!.soc,
               maxKm: session.startState.socMax,
-              amountSaved: '5,00',
+              amountSaved: amountSaved,
               currencySymbol: '€',
             ),
           ),
