@@ -175,7 +175,47 @@ class _ProfileCard extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final assetsProvider = ref.watch(assetsProviderProvider);
+    return Stack(
+      alignment: Alignment.topCenter,
+      children: [
+        Visibility(
+          visible: false,
+          maintainSize: true,
+          maintainAnimation: true,
+          maintainState: true,
+          child: Column(
+            children: [
+              const SizedBox(height: 24.0),
+              _Card(data: data),
+            ],
+          ),
+        ),
+        Positioned(
+          left: 0,
+          right: 0,
+          bottom: 0,
+          child: _Card(data: data),
+        ),
+        Positioned(
+          left: 0,
+          right: 0,
+          top: 0,
+          child: _VehicleImage(data: data),
+        ),
+      ],
+    );
+  }
+}
+
+class _Card extends ConsumerWidget {
+  final HomeScreenData data;
+
+  const _Card({
+    required this.data,
+  });
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
     final dateFormatter = ref.watch(dateFormatterProvider);
 
     final sessions = data.selectedVehicleState.mostRecentSessions;
@@ -244,7 +284,10 @@ class _ProfileCard extends ConsumerWidget {
           Radius.circular(12.0),
         ),
       ),
-      margin: const EdgeInsets.symmetric(horizontal: SpacingTokens.ml),
+      margin: const EdgeInsets.only(
+        left: SpacingTokens.ml,
+        right: SpacingTokens.ml,
+      ),
       padding: const EdgeInsets.symmetric(
         horizontal: SpacingTokens.m,
         vertical: SpacingTokens.sm,
@@ -256,13 +299,10 @@ class _ProfileCard extends ConsumerWidget {
           mainAxisAlignment: MainAxisAlignment.end,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Center(
-              child: Image.asset(
-                data.selectedVehicleState.metaData.getImage(assetsProvider),
-                fit: BoxFit.fitWidth,
-              ),
+            const SizedBox(
+              height: 88,
+              width: 313,
             ),
-            const SizedBox(height: 16.0),
             Row(
               mainAxisSize: MainAxisSize.max,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -301,6 +341,28 @@ class _ProfileCard extends ConsumerWidget {
             ),
           ],
         ),
+      ),
+    );
+  }
+}
+
+class _VehicleImage extends ConsumerWidget {
+  final HomeScreenData data;
+
+  const _VehicleImage({
+    required this.data,
+  });
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final assetsProvider = ref.watch(assetsProviderProvider);
+
+    return Center(
+      child: Image.asset(
+        data.selectedVehicleState.metaData.getImage(assetsProvider),
+        fit: BoxFit.fitWidth,
+        width: 313,
+        height: 112,
       ),
     );
   }
