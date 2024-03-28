@@ -75,7 +75,7 @@ class HomeViewModel extends ValueNotifier<HomeScreenState> {
     } finally {
       final currentValue = value;
       if (currentValue is HomeScreenData && _carToPoll.ean == vehicle.ean) {
-        Future.delayed(const Duration(seconds: 1), () => _pollVehicleState(vehicle));
+        Future.delayed(const Duration(seconds: 10), () => _pollVehicleState(vehicle));
       }
     }
   }
